@@ -5,6 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import pl.jkanclerz.productcatalog.MapProductStorage;
 import pl.jkanclerz.productcatalog.ProductCatalog;
+import pl.jkanclerz.productcatalog.ProductStorage;
 import pl.jkanclerz.productcatalog.SqlProductStorage;
 
 import java.math.BigDecimal;
@@ -17,8 +18,13 @@ public class App {
     }
 
     @Bean
-    ProductCatalog createMyProductCatalog() {
-        ProductCatalog productCatalog = new ProductCatalog(new SqlProductStorage());
+    ProductStorage createMyProductStorage() {
+        return new MapProductStorage();
+    }
+
+    @Bean
+    ProductCatalog createMyProductCatalog(ProductStorage productStorage) {
+        ProductCatalog productCatalog = new ProductCatalog(productStorage);
 
         fillWithExampleProducts(productCatalog);
 
